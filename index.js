@@ -1,7 +1,7 @@
 var join = require('path').join;
 var relative = require('path').relative;
 
-var isExists = function(id) {
+var isModuleResolved = function(id) {
   var isModuleExists = false;
   try {
     require.resolve(id);
@@ -9,14 +9,13 @@ var isExists = function(id) {
   } catch(e) {}
 
   return isModuleExists;
-}
+};
 
+function resolve(id) {
+  var modulePath = null;
 
-module.exports = function(id) {
-  var isModuleExists = false;
-
-  if (isExists(id)) {
-    isModuleExists = true;
+  if (isModuleResolved(id)) {
+    modulePath = require.resolve(id);
   } else {
     var dir = process.cwd();
     var paths = [
@@ -44,12 +43,21 @@ module.exports = function(id) {
 
       try {
         require.resolve(requiredModule);
-        isModuleExists = true;
+        modulePath = requiredModule;
       } catch(e) {}
 
       index++;
     }
   }
 
-  return isModuleExists;
+  return modulePath;
 };
+
+
+var isExists = function(id) {
+  return !!resolve(id);
+}
+
+isExists.resolve = resolve;
+
+module.exports = isExists;
