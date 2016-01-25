@@ -36,7 +36,7 @@ function resolve(id) {
     paths = paths.reverse();
     var index = 0;
 
-    while (!isModuleExists && index < paths.length) {
+    while (!modulePath && index < paths.length) {
       var path = paths[index];
       var requiredModuleDir = relative(__dirname, path);
       var requiredModule = join(requiredModuleDir, id);
