@@ -24,7 +24,7 @@ For example:
 I am developing build / server like webpack. And there are loaders (babel-loader, html-loader, json-loader etc).
 And I want my builder to require loader automatically when it is needed. So my `node_modules` should be as below:
 
-    my-work-directory/node_modules
+    /my-work-directory/node_modules
                              |-builder/
                              |-babel-loader/
                              |-html-loader/
@@ -37,7 +37,7 @@ But If I `npm link` my build (for better developing process) or make in global -
                             |-builder/
         
 
-    my-work-directory/node_modules
+    /my-work-directory/node_modules
                              |-(linked directory) builder/
                              |-babel-loader/
                              |-html-loader/
@@ -60,12 +60,12 @@ Examples
 import magic from 'magic-require';
 
 
-magic.isExists('path'); // true
-magic.isExists('qwert'); // false
+magic.isExists('babel-loader'); // true
+magic.isExists('expose-loader'); // false
 
-magic.resolve('angular'); // ../../node_modules/angular/angular.js
+magic.resolve('babel-loader'); // ../../../.. /my-work-directory/node_modules/babe-loader/index.js
 
-const React = magic('react');
+const BabelLoader = magic('babel-laoder');
 ```
 
 Available methods
