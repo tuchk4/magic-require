@@ -1,4 +1,5 @@
 var join = require('path').join;
+var dirname = require('path').dirname;
 var relative = require('path').relative;
 
 var isModuleResolved = function(id) {
@@ -58,8 +59,10 @@ function resolve(id) {
   if (isModuleResolved(id)) {
     modulePath = require.resolve(id);
   } else {
-    var callerDir = module.parent.filename;
+    var callerDir = dirname(module.parent.filename);
     var callerPaths = generatePaths(callerDir);
+
+    console.log(callerPaths);
 
     // at first - check module form caller dir
     modulePath = checkPaths(id, callerPaths);
