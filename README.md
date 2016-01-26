@@ -52,9 +52,12 @@ Here is documentation how [modules are loading from node_modules folder](https:/
 
 ## Solution
 
-`magic-require` always resolve modules to current `process.cwd()`. 100% supports `package.json` if [loads module as directory](https://nodejs.org/docs/latest/api/modules.html#modules_all_together).
+`npm install --save magic-require`
 
-Example
+First resolve modules according to caller module **\_\_dirname** and if not resolved - try to resolve according to current `process.cwd()`. 
+100% supports `package.json` if [loads module as directory](https://nodejs.org/docs/latest/api/modules.html#modules_all_together).
+
+Examples
 
 ```js
 import magic from 'magic-require';
@@ -71,5 +74,5 @@ const React = magic('react');
 Available methods
 
 - `isExists(module)` - returns **true** if module exists and **false** - if not.
-- `resolve(module)` - returns relative path to requested module from current executing module's **\_\_dirname**. 
+- `resolve(module)` - returns relative path to requested module from current executing module's **\_\_dirname** or `null`. 
 
