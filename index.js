@@ -11,41 +11,65 @@ var isModuleResolved = function(id) {
   return isModuleExists;
 };
 
+function generatePaths(dir) {
+  var paths = [
+    '/node_modules'
+  ];
+
+  dir.split('/').reduce(function(current, prev) {
+    var path = join('/', current, prev);
+    paths.push(join('/', path, 'node_modules'));
+
+    return path;
+  });
+
+  if (!paths.length) {
+    throw new Error('Something went wrong while paths were calculating');
+  }
+
+  paths = paths.reverse();
+
+  return paths;
+}
+
+function checkPaths(id, paths) {
+  var modulePath = null;
+
+  var index = 0;
+
+  while (!modulePath && index < paths.length) {
+    var path = paths[index];
+    var requiredModuleDir = relative(__dirname, path);
+    var requiredModule = join(requiredModuleDir, id);
+
+    try {
+      modulePath = require.resolve(requiredModule);
+    } catch(e) {}
+
+    index++;
+  }
+
+  return modulePath;
+}
+
 function resolve(id) {
   var modulePath = null;
 
   if (isModuleResolved(id)) {
     modulePath = require.resolve(id);
   } else {
-    var dir = process.cwd();
-    var paths = [
-      '/node_modules'
-    ];
+    var callerDir = module.parent.filename;
+    var callerPaths = generatePaths(callerDir);
 
-    dir.split('/').reduce(function(current, prev) {
-      var path = join('/', current, prev);
-      paths.push(join('/', path, 'node_modules'));
+    // at first - check module form caller dir
+    modulePath = checkPaths(id, callerPaths);
 
-      return path;
-    });
+    if (!modulePath) {
+      var cwd = process.cwd();
+      var cwdPaths = generatePaths(cwd);
 
-    if (!paths.length) {
-      throw new Error('Something went wrong while paths were calculating');
-    }
-
-    paths = paths.reverse();
-    var index = 0;
-
-    while (!modulePath && index < paths.length) {
-      var path = paths[index];
-      var requiredModuleDir = relative(__dirname, path);
-      var requiredModule = join(requiredModuleDir, id);
-
-      try {
-        modulePath = require.resolve(requiredModule);
-      } catch(e) {}
-
-      index++;
+      // and then - check module form current cwd
+      modulePath = checkPaths(id, cwdPaths);
     }
   }
 
