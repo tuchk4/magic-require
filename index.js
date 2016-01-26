@@ -42,8 +42,7 @@ function resolve(id) {
       var requiredModule = join(requiredModuleDir, id);
 
       try {
-        require.resolve(requiredModule);
-        modulePath = requiredModule;
+        modulePath = require.resolve(requiredModule);
       } catch(e) {}
 
       index++;
