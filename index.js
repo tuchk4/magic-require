@@ -50,13 +50,25 @@ function resolve(id) {
   }
 
   return modulePath;
-};
+}
 
 
 var isExists = function(id) {
   return !!resolve(id);
-}
+};
 
-isExists.resolve = resolve;
+var magicRequire = (id) => {
+  var path = resolve(id);
 
-module.exports = isExists;
+  if (!path) {
+    throw new Error('Can not find module "' + id +'"');
+  }
+
+  return require(path);
+};
+
+magicRequire.resolve = resolve;
+magicRequire.isExists = isExists;
+
+
+module.exports = magicRequire;
