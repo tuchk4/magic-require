@@ -1,6 +1,3 @@
-## Check is node module exists
-
-
 ## The problem
 Usually module availability could be checked using native `require` method.
 
@@ -34,7 +31,7 @@ And I want my builder to require loader automatically when it is needed. So my `
                              |-json-loader/
          
 In this case if I run `require('babe-loader')` at `builder` component - it will work.
-But If I `npm link` my build (for better developing process) or make in global - my `node_modules` will be like as below:
+But If I `npm link` my build (for better developing process) or make in global - my `node_modules` will be as below:
 
     /usr/local/lib/node_modules
                             |-builder/
@@ -76,3 +73,6 @@ Available methods
 - `isExists(module)` - returns **true** if module exists and **false** - if not.
 - `resolve(module)` - returns relative path to requested module from current executing module's **\_\_dirname** or `null`. 
 
+
+## Community
+You are always welcome for ideas and pull requests :)
