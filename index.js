@@ -62,8 +62,6 @@ function resolve(id) {
     var callerDir = dirname(module.parent.filename);
     var callerPaths = generatePaths(callerDir);
 
-    console.log(callerPaths);
-
     // at first - check module form caller dir
     modulePath = checkPaths(id, callerPaths);
 
