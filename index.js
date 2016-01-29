@@ -82,7 +82,7 @@ var isExists = function(id) {
   return !!resolve(id);
 };
 
-var magicRequire = (id) => {
+var magicRequire = function(id) {
   var path = resolve(id);
 
   if (!path) {
