@@ -1,4 +1,6 @@
 ## The problem
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/tuchk4/magic-require.svg)](https://greenkeeper.io/)
 Usually module availability could be checked using native `require` method.
 
 ```js
